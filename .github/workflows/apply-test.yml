@@ -1,12 +1,42 @@
 name: apply test
 on:
   - push
+
 jobs:
-  test:
-    name: apply test
+  ubuntu:
+    name: Ubuntu
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
+      - uses: actions/checkout@v3
+      - name: Install dotfiles
+        run: sh -c "$(curl -fsLS chezmoi.io/get)" -- init --apply -S .
+
+  debian:
+    name: Debian
+    runs-on: ubuntu-latest
+    container:
+      image: debian:latest
+    timeout-minutes: 10
+    steps:
+      - name: Install curl, git
+        run: |
+          apt-get update
+          apt-get install -y curl git
+      - uses: actions/checkout@v3
+      - name: Install dotfiles
+        run: sh -c "$(curl -fsLS chezmoi.io/get)" -- init --apply -S .
+
+  arch:
+    name: Arch Linux
+    runs-on: ubuntu-latest
+    container:
+      image: archlinux:latest
+    timeout-minutes: 10
+    steps:
+      - name: Install curl, git
+        run: |
+          pacman -Sy --noconfirm curl git
       - uses: actions/checkout@v3
       - name: Install dotfiles
         run: sh -c "$(curl -fsLS chezmoi.io/get)" -- init --apply -S .
