@@ -16,13 +16,15 @@ as_root() {
         as_root apt-get update -y
         as_root apt-get install -y bat binutils build-essential colordiff curl duf fakeroot gcc git httpie jq less neovim ripgrep strace traceroute unzip vim wget whois wl-clipboard zip zoxide zsh
 
-        if ! command -v brew &>/dev/null; then
+        BREW=/home/linuxbrew/.linuxbrew/bin/brew
+
+        if ! [ -x "$BREW" ]; then
             NONINTERACTIVE=1 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-            eval "$(/usr/bin/env brew shellenv)"
+            eval "$($BREW shellenv)"
         fi
 
-        brew update --quiet
-        brew install bottom dust fastfetch procs sheldon starship
+        $BREW update --quiet
+        $BREW install bottom dust fastfetch procs sheldon starship
 
         {{- if eq .chezmoi.osRelease.id "ubuntu" }}
             # Ubuntu
