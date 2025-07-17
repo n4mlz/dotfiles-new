@@ -14,7 +14,7 @@ as_root() {
         # Ubuntu or Debian
         echo "Installing CLI tools for ubuntu or debian..."
         as_root apt-get update -y
-        as_root apt-get install -y bat binutils build-essential colordiff curl duf fakeroot fd gcc git httpie jq less neovim ripgrep strace traceroute unzip vi vim wget whois wl-clipboard zip zoxide zsh
+        as_root apt-get install -y bat binutils build-essential colordiff curl duf fakeroot gcc git httpie jq less neovim ripgrep strace traceroute unzip vim wget whois wl-clipboard zip zoxide zsh
 
         if ! command -v brew &>/dev/null; then
             NONINTERACTIVE=1 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
@@ -27,13 +27,17 @@ as_root() {
         {{- if eq .chezmoi.osRelease.id "ubuntu" }}
             # Ubuntu
             echo "Installing additional tools for Ubuntu..."
-            as_root apt-get install -y eza ubuntu-advantage-tools
+            as_root apt-get install -y eza fd ubuntu-advantage-tools
+        {{- else if eq .chezmoi.osRelease.id "debian" }}
+            # Debian
+            echo "Installing additional tools for Debian..."
+            as_root apt-get install -y fd-find
         {{- end }}
 
     {{- else if eq .chezmoi.osRelease.id "arch" }}
         # Arch Linux
         echo "Installing CLI tools for Arch Linux..."
-        as_root pacman -S --needed --noconfirm base-devel bat binutils bottom colordiff curl duf dust eza fakeroot fastfetch fd gcc git httpie jq less make man-db neovim procs ripgrep sheldon starship strace traceroute unzip vi vim wget which whois wl-clipboard zip zoxide zsh
+        as_root pacman -S --needed --noconfirm base-devel bat binutils bottom colordiff curl duf dust eza fakeroot fastfetch fd gcc git httpie jq less make man-db neovim procs ripgrep sheldon starship strace traceroute unzip vim wget which whois wl-clipboard zip zoxide zsh
 
     {{- end }}
 {{ end }}
