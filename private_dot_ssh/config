@@ -1,0 +1,28 @@
+Host camellia
+  HostName camellia
+  User n4mlz
+  Port 10022
+
+Host cosmos
+  HostName cosmos
+  User n4mlz
+  Port 10022
+
+Host lavender
+  HostName lavender
+  User n4mlz
+  Port 10022
+
+Host lycoris
+  HostName lycoris
+  User n4mlz
+  Port 10022
+
+Host wisteria
+  HostName wisteria
+  User n4mlz
+  Port 10022
+
+Host *
+  IdentityAgent ~/.1password/agent.sock
+
