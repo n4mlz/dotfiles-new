@@ -1,1 +1,3 @@
+{{ if lookPath "op" }}
 {{- onepasswordRead "op://Personal/sub_key/privateKey?ssh-format=openssh" -}}
+{{ end }}
