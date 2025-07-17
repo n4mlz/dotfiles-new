@@ -1,0 +1,178 @@
+@import "color.css";
+
+* {
+    /* `otf-font-awesome` is required to be installed for icons */
+    font-family: FontAwesome, "Montserrat", monospace;
+    font-size: 12px;
+    border: 0;
+    padding: 0;
+    margin: 2px 0 2.5px 0;
+    color: white;
+    background-color: transparent;
+}
+
+#window {
+    background-color: @foreground;
+    margin: 0px;
+    padding: 0 12px;
+    border-radius: 12px;
+}
+
+window#waybar {
+    background-color: @background;
+    margin: 0px;
+    transition-property: background-color;
+    transition-duration: .5s;
+}
+
+window#waybar.hidden {}
+
+/*
+window#waybar.empty {
+    background-color: transparent;
+}
+window#waybar.solo {
+    background-color: #FFFFFF;
+}
+*/
+
+window#waybar.termite {}
+
+window#waybar.chromium {}
+
+button {
+    margin: 0px;
+    /* Use box-shadow instead of border so the text isn't offset */
+    box-shadow: inset 0 -3px transparent;
+    /* Avoid rounded borders under each button name */
+    border: none;
+    border-radius: 0;
+}
+
+/* https://github.com/Alexays/Waybar/wiki/FAQ#the-workspace-buttons-have-a-strange-hover-effect */
+button:hover {}
+
+#workspaces {
+    margin: 0px;
+    background-color: @foreground;
+    border-radius: 10px;
+}
+
+#workspaces button {
+    margin: 0px;
+    padding: 0 5px;
+    border-radius: 10px;
+}
+
+#workspaces button:hover {}
+
+#workspaces button.active {
+    margin: 0px;
+    background-color: @highlight;
+    border-radius: 10px;
+}
+
+#workspaces button.urgent {}
+
+#clock,
+#battery,
+#cpu,
+#memory,
+#disk,
+#temperature,
+#backlight,
+#network,
+#pulseaudio,
+#wireplumber,
+#custom-media,
+#tray,
+#mode,
+#idle_inhibitor,
+#scratchpad,
+#mpd {
+    margin: 0;
+    padding: 0 8px;
+    background-color: @foreground;
+}
+
+/* If workspaces is the leftmost module, omit left margin */
+.modules-left>widget:first-child>#workspaces {
+    margin-left: 0;
+}
+
+/* If workspaces is the rightmost module, omit right margin */
+.modules-right>widget:last-child>#workspaces {
+    margin-right: 0;
+}
+
+label:focus {}
+
+/* right */
+
+#cpu {
+    color: @red;
+    border-radius: 12px 0 0 12px;
+    padding: 0 8px 0 8px;
+}
+
+
+#memory {
+    color: @pink;
+}
+
+
+#temperature {
+    color: @blue;
+}
+
+#temperature.critical {
+    color: #FF0000;
+}
+
+
+#network {
+    color: @aqua;
+}
+
+#network.disconnected {
+    color: @aqua;
+}
+
+
+#pulseaudio {
+    color: @green;
+}
+
+#pulseaudio.muted {
+    color: @green;
+}
+
+
+#battery {
+    color: @yellow;
+}
+
+#battery.charging,
+#battery.plugged {
+    color: @yellow;
+}
+
+#battery.critical:not(.charging) {
+    color: #FF0000;
+}
+
+
+#backlight {
+    color: @orange;
+    border-radius: 0 12px 12px 0;
+    padding: 0 8px 0 8px;
+}
+
+
+#clock {
+    color: @textwhite;
+    background-color: @foreground;
+    border-radius: 12px;
+    padding: 0 12px;
+    margin: 0 0 0 4px;
+}
