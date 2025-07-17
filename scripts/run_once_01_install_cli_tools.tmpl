@@ -1,12 +1,20 @@
 #!/bin/sh
 
+as_root() {
+    if command -v sudo >/dev/null 2>&1 && [ "$(id -u)" -ne 0 ]; then
+        sudo "$@"
+    else
+        "$@"
+    fi
+}
+
 {{ if eq .chezmoi.os "linux" }}
     
     {{- if or (eq .chezmoi.osRelease.id "ubuntu") (eq .chezmoi.osRelease.id "debian") }}
         # Ubuntu or Debian
         echo "Installing CLI tools for ubuntu or debian..."
-        sudo apt-get update -y && sudo apt-get upgrade -y
-        sudo apt-get install -y bat binutils build-essential colordiff curl duf fakeroot fd gcc git httpie jq less neovim ripgrep strace traceroute unzip vi vim wget whois wl-clipboard zip zoxide zsh
+        as_root apt-get update -y
+        as_root apt-get install -y bat binutils build-essential colordiff curl duf fakeroot fd gcc git httpie jq less neovim ripgrep strace traceroute unzip vi vim wget whois wl-clipboard zip zoxide zsh
 
         if ! command -v brew &>/dev/null; then
             NONINTERACTIVE=1 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
@@ -19,13 +27,13 @@
         {{- if eq .chezmoi.osRelease.id "ubuntu" }}
             # Ubuntu
             echo "Installing additional tools for Ubuntu..."
-            sudo apt-get install -y eza ubuntu-advantage-tools
+            as_root apt-get install -y eza ubuntu-advantage-tools
         {{- end }}
 
     {{- else if eq .chezmoi.osRelease.id "arch" }}
         # Arch Linux
         echo "Installing CLI tools for Arch Linux..."
-        sudo pacman -S --needed --noconfirm base-devel bat binutils bottom colordiff curl duf dust eza fakeroot fastfetch fd gcc git httpie jq less make man-db neovim procs ripgrep sheldon starship strace traceroute unzip vi vim wget which whois wl-clipboard zip zoxide zsh
+        as_root pacman -S --needed --noconfirm base-devel bat binutils bottom colordiff curl duf dust eza fakeroot fastfetch fd gcc git httpie jq less make man-db neovim procs ripgrep sheldon starship strace traceroute unzip vi vim wget which whois wl-clipboard zip zoxide zsh
 
     {{- end }}
 {{ end }}
