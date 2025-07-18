@@ -23,6 +23,19 @@ Host wisteria
   User n4mlz
   Port 10022
 
+{{- if eq .chezmoi.hostname "cosmos"}}
+
+Host azalea15
+  Hostname azalea15.230401.coins.tsukuba.ac.jp
+  User s2310574
+
+Host tsukubataro
+  Hostname localhost
+  User tsukubataro
+  Port 60022
+  ProxyJump azalea15
+
+{{- end }}
+
 Host *
   IdentityAgent ~/.1password/agent.sock
-
