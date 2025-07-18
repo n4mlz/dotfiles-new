@@ -37,5 +37,11 @@ as_root() {
         echo "Installing CLI tools for Arch Linux..."
         as_root pacman -S --needed --noconfirm base-devel bat binutils bottom colordiff curl duf dust eza fakeroot fastfetch fd gcc git httpie jq less make man-db neovim procs ripgrep sheldon starship strace traceroute unzip vim wget which whois wl-clipboard zip zoxide zsh
 
-    {{- end }}
+    {{- else }}
+        echo "Unsupported Linux distribution: {{ .chezmoi.osRelease.id }}"
+        exit 1
+    {{ end }}
+
+    echo "CLI tools installation completed."
+
 {{ end }}
