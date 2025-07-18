@@ -24,12 +24,12 @@ as_root() {
         fi
 
         $BREW update --quiet
-        $BREW install bottom dust fastfetch procs sheldon starship
+        $BREW install bottom dust eza fastfetch procs sheldon starship
 
         {{- if eq .chezmoi.osRelease.id "ubuntu" }}
             # Ubuntu
             echo "Installing additional tools for Ubuntu..."
-            as_root apt-get install -y eza ubuntu-advantage-tools
+            as_root apt-get install -y ubuntu-advantage-tools
         {{- end }}
 
     {{- else if eq .chezmoi.osRelease.id "arch" }}
