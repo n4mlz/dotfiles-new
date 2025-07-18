@@ -10,7 +10,7 @@ as_root() {
 
 {{ if eq .chezmoi.os "linux" }}
     
-    {{- if or (eq .chezmoi.osRelease.id "ubuntu") (eq .chezmoi.osRelease.id "debian") }}
+    {{ if or (eq .chezmoi.osRelease.id "ubuntu") (eq .chezmoi.osRelease.id "debian") }}
         # Ubuntu or Debian
         echo "Installing CLI tools for ubuntu or debian..."
         as_root apt-get update -y
@@ -26,19 +26,19 @@ as_root() {
         $BREW update --quiet
         $BREW install bottom dust eza fastfetch procs sheldon starship
 
-        {{- if eq .chezmoi.osRelease.id "ubuntu" }}
+        {{ if eq .chezmoi.osRelease.id "ubuntu" }}
             # Ubuntu
             echo "Installing additional tools for Ubuntu..."
             as_root apt-get install -y ubuntu-advantage-tools
-        {{- end }}
+        {{ end }}
 
-    {{- else if eq .chezmoi.osRelease.id "arch" }}
+    {{ else if eq .chezmoi.osRelease.id "arch" }}
         # Arch Linux
         echo "Installing CLI tools for Arch Linux..."
         as_root pacman -S --needed --noconfirm base-devel bat binutils bottom colordiff curl duf dust eza fakeroot fastfetch fd gcc git httpie jq less make man-db neovim procs ripgrep sheldon starship strace traceroute unzip vim wget which whois wl-clipboard zip zoxide zsh
 
-    {{- else }}
-        echo "Unsupported Linux distribution: {{ .chezmoi.osRelease.id }}"
+    {{ else }}
+        echo "Unsupported Linux distribution: {{- .chezmoi.osRelease.id -}}"
         exit 1
     {{ end }}
 
