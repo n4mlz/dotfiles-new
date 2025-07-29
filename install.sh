@@ -73,6 +73,8 @@ fi
 
 echo "done"
 
+# apply dotfiles
+
 echo "Applying dotfiles..."
 
 chezmoi apply
