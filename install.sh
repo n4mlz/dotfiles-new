@@ -85,7 +85,8 @@ echo "Dotfiles applied successfully."
 
 if [ "$(basename -- "$SHELL")" != "zsh" ]; then
     echo "Changing login shell to zsh..."
-    as_root chsh -s "$(command -v zsh)" "$USER"
+    USERNAME="$(id -un)"
+    as_root chsh -s "$(command -v zsh)" "$USERNAME"
     echo "done"
 
     echo "Entering zsh shell..."
