@@ -8,6 +8,8 @@ as_root() {
     fi
 }
 
+echo "Checking for CLI tools installation..."
+
 {{ if eq .chezmoi.os "linux" }}
     
     {{ if or (eq .chezmoi.osRelease.id "ubuntu") (eq .chezmoi.osRelease.id "debian") }}
