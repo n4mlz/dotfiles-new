@@ -47,7 +47,7 @@ if ! command -v chezmoi >/dev/null 2>&1; then
         as_root pacman -S --needed --noconfirm chezmoi
     else
         echo "Installing chezmoi by downloading the binary..."
-        sh -c "$(curl -fsLS get.chezmoi.io)"
+        BINDIR=$HOME/.local/bin sh -c "$(curl -fsLS get.chezmoi.io)"
     fi
 fi
 
