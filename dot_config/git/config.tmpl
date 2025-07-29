@@ -7,7 +7,14 @@
   format = ssh
 
 [gpg "ssh"]
+
+  {{- if eq .chezmoi.hostname "mimosa" }}
+  program = "/mnt/c/Users/aporo/AppData/Local/1Password/app/8/op-ssh-sign.exe"
+
+  {{- else }}
   program = "/opt/1Password/op-ssh-sign"
+
+  {{- end }}
 
 [commit]
   gpgsign = true
