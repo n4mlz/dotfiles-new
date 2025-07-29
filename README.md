@@ -47,6 +47,12 @@ $ chezmoi init n4mlz/dotfiles-new
 $ chezmoi apply
 ```
 
+Or, you can run the following command to install chezmoi and initialize it in one step:
+
+```bash
+$ curl -fsSL https://raw.githubusercontent.com/n4mlz/dotfiles-new/main/install.sh | sh
+```
+
 ## 🔗 Dependencies
 
 - [chezmoi](https://www.chezmoi.io/) _**(Dotfiles Manager)**_
