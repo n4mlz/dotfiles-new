@@ -18,6 +18,14 @@ install_with_pacman() {
     as_root pacman -S --needed --noconfirm curl git
 }
 
+choose_bindir() {
+    if printf '%s\n' "$PATH" | tr ':' '\n' | grep -qx "$HOME/.local/bin"; then
+        echo "$HOME/.local/bin"
+    else
+        echo "/usr/local/bin"
+    fi
+}
+
 # install curl and git
 
 echo "Checking for curl and git installation..."
@@ -46,8 +54,9 @@ if ! command -v chezmoi >/dev/null 2>&1; then
         echo "Installing chezmoi using pacman..."
         as_root pacman -S --needed --noconfirm chezmoi
     else
-        echo "Installing chezmoi by downloading the binary..."
-        BINDIR=$HOME/.local/bin sh -c "$(curl -fsLS get.chezmoi.io)"
+        BINDIR="$(choose_bindir)"
+        echo "Installing chezmoi by downloading the binary... (installing to: $BINDIR)"
+        BINDIR="$BINDIR" sh -c "$(curl -fsLS get.chezmoi.io)"
     fi
 fi
 

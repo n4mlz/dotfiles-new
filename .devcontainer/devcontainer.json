@@ -1,0 +1,12 @@
+{
+  "name": "dotfiles-demo",
+  "image": "mcr.microsoft.com/devcontainers/base:ubuntu:24.04",
+  "features": {
+    "ghcr.io/devcontainers/features/git:1": {}
+  },
+  "settings": {
+    "dotfiles.repository": "https://github.com/n4mlz/dotfiles-new",
+    "dotfiles.targetPath": "~/dotfiles",
+    "dotfiles.installCommand": "install.sh"
+  }
+}
