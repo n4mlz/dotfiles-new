@@ -50,8 +50,11 @@ $ chezmoi apply
 Or, you can run the following command to install chezmoi and initialize it in one step:
 
 ```bash
-$ curl -fsSL https://raw.githubusercontent.com/n4mlz/dotfiles-new/main/install.sh | sh
+$ curl -fsSL https://dotfiles.n4mlz.dev/install.sh | sh
 ```
+
+> [!NOTE]  
+> `https://dotfiles.n4mlz.dev/install.sh` redirects to `https://raw.githubusercontent.com/n4mlz/dotfiles-new/main/install.sh`.
 
 ## 🔗 Dependencies
 
