@@ -80,3 +80,14 @@ echo "Applying dotfiles..."
 chezmoi apply
 
 echo "Dotfiles applied successfully."
+
+# change login shell to zsh if not already set
+
+if [ "$(basename -- "$SHELL")" != "zsh" ]; then
+    echo "Changing login shell to zsh..."
+    as_root chsh -s "$(command -v zsh)" "$USER"
+    echo "done"
+
+    echo "Entering zsh shell..."
+    exec zsh -l
+fi
