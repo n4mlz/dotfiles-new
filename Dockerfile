@@ -20,4 +20,4 @@ WORKDIR /home/$USERNAME/
 
 # dotfiles
 
-RUN curl -fsSL https://dotfiles.n4mlz.dev/install.sh | sh
+RUN curl -fsSL https://dotfiles.n4mlz.dev/install.sh | bash
