@@ -1,82 +1,95 @@
 #!/bin/sh
+set -euo pipefail
 
-as_root() {
-    if command -v sudo >/dev/null 2>&1 && [ "$(id -u)" -ne 0 ]; then
+log() {
+    printf '%s\n' "$*"
+}
+
+command_exists() {
+    command -v "$1" >/dev/null 2>&1
+}
+
+run_as_root() {
+    if [ "$(id -u)" -ne 0 ] && command_exists sudo; then
         sudo "$@"
     else
         "$@"
     fi
 }
 
-install_with_apt() {
-    as_root apt-get update -y
-    as_root apt-get install -y curl git
-}
+install_packages() {
+    packages="$*"
+    if command_exists apt-get; then
+        log "Installing ${packages} via apt..."
+        run_as_root apt-get update -y
+        run_as_root apt-get install -y $packages
+        return
+    fi
 
-install_with_pacman() {
-    as_root pacman -Syu --noconfirm
-    as_root pacman -S --needed --noconfirm curl git
+    if command_exists pacman; then
+        log "Installing ${packages} via pacman..."
+        run_as_root pacman -Syu --noconfirm
+        run_as_root pacman -S --needed --noconfirm $packages
+        return
+    fi
+
+    log "Unsupported package manager; please install ${packages} manually." >&2
+    exit 1
 }
 
 choose_bindir() {
-    if printf '%s\n' "$PATH" | tr ':' '\n' | grep -qx "$HOME/.local/bin"; then
-        echo "$HOME/.local/bin"
+    if printf '%s' "$PATH" | tr ':' '\n' | grep -qx "$HOME/.local/bin" && [ -d "$HOME/.local/bin" ]; then
+        printf '%s' "$HOME/.local/bin"
+    elif [ -d "$HOME/.local/bin" ] && [ -w "$HOME/.local/bin" ]; then
+        printf '%s' "$HOME/.local/bin"
     else
-        echo "/usr/local/bin"
+        printf '%s' "/usr/local/bin"
     fi
 }
 
-# install curl and git
-
-echo "Checking for curl and git installation..."
-
-if ! command -v curl >/dev/null 2>&1 || ! command -v git >/dev/null 2>&1; then
-    if command -v apt-get >/dev/null 2>&1; then
-        echo "Installing curl and git using apt..."
-        install_with_apt
-    elif command -v pacman >/dev/null 2>&1; then
-        echo "Installing curl and git using pacman..."
-        install_with_pacman
-    else
-        echo "Unsupported package manager. Please install curl and git manually."
-        exit 1
+ensure_command() {
+    cmd="$1"
+    shift
+    if ! command_exists "$cmd"; then
+        install_packages "$@"
     fi
-fi
+}
 
-echo "done"
+# ---- main ----
 
-# install chezmoi
+log "Checking for curl and git..."
+ensure_command curl curl git
+ensure_command git curl git
+log "done"
 
-echo "Checking for chezmoi installation..."
-
-if ! command -v chezmoi >/dev/null 2>&1; then
-    if command -v pacman >/dev/null 2>&1; then
-        echo "Installing chezmoi using pacman..."
-        as_root pacman -S --needed --noconfirm chezmoi
+log "Checking for chezmoi installation..."
+if ! command_exists chezmoi; then
+    if command_exists pacman; then
+        log "Installing chezmoi via pacman..."
+        run_as_root pacman -S --needed --noconfirm chezmoi
     else
-        BINDIR="$(choose_bindir)"
-        echo "Installing chezmoi by downloading the binary... (installing to: $BINDIR)"
-        BINDIR="$BINDIR" sh -c "$(curl -fsLS get.chezmoi.io)"
+        BINDIR=$(choose_bindir)
+        log "Installing chezmoi by downloading installer (target: $BINDIR)..."
+        if [ "$BINDIR" = "/usr/local/bin" ]; then
+            sudo env BINDIR="$BINDIR" sh -c 'curl -fsLS get.chezmoi.io | sh'
+        else
+            BINDIR="$BINDIR" sh -c 'curl -fsLS get.chezmoi.io | sh'
+        fi
     fi
+else
+    log "chezmoi already installed."
 fi
+log "done"
 
-echo "done"
-
-# install dotfiles
-
-echo "Checking for dotfiles installation..."
-
+log "Checking for dotfiles installation..."
 if [ ! -d "$HOME/.local/share/chezmoi" ]; then
-    echo "Dotfiles not found. Initializing chezmoi..."
+    log "Dotfiles not found. Initializing chezmoi..."
     chezmoi init n4mlz/dotfiles-new
+else
+    log "Dotfiles already initialized."
 fi
+log "done"
 
-echo "done"
-
-# apply dotfiles
-
-echo "Applying dotfiles..."
-
+log "Applying dotfiles..."
 chezmoi apply
-
-echo "Dotfiles applied successfully."
+log "Dotfiles applied successfully."
