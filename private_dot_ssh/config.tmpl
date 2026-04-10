@@ -42,5 +42,12 @@ Host kernelhack
 
 {{- end }}
 
+Host sbyllabs
+  Hostname sbyllabs
+  User sbyl
+  Port 10022
+  IdentityFile ~/.ssh/id_ed25519
+  IdentitiesOnly yes
+
 Host *
   IdentityAgent ~/.1password/agent.sock
