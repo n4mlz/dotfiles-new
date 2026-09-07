@@ -9,11 +9,8 @@ return {
   -- == Examples of Adding Plugins ==
 
   "andweeb/presence.nvim",
-  {
-    "ray-x/lsp_signature.nvim",
-    event = "BufRead",
-    config = function() require("lsp_signature").setup() end,
-  },
+  -- Disabled: the old example plugin calls the removed vim.tbl_flatten API.
+  { "ray-x/lsp_signature.nvim", enabled = false },
 
   -- == Examples of Overriding Plugins ==
 
