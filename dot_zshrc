@@ -47,7 +47,7 @@ if type batcat >/dev/null 2>&1; then
 fi
 
 if type eza >/dev/null 2>&1; then
-    alias ls='eza --icons'
+    alias ls='eza --icons=auto'
 fi
 
 if type fdfind >/dev/null 2>&1; then
