@@ -26,7 +26,7 @@ echo "Checking for CLI tools installation..."
         fi
 
         $BREW update --quiet
-        $BREW install bottom dust eza fastfetch procs sheldon starship
+        $BREW install bottom dust eza fastfetch procs sheldon starship zellij
 
         {{ if eq .chezmoi.osRelease.id "ubuntu" }}
             # Ubuntu
@@ -37,7 +37,7 @@ echo "Checking for CLI tools installation..."
     {{ else if eq .chezmoi.osRelease.id "arch" }}
         # Arch Linux
         echo "Installing CLI tools for Arch Linux..."
-        as_root pacman -S --needed --noconfirm base-devel bat binutils bottom colordiff curl duf dust eza fakeroot fastfetch fd gcc git httpie jq less make man-db neovim procs ripgrep sheldon starship strace traceroute unzip vim wget which whois wl-clipboard zip zoxide zsh
+        as_root pacman -S --needed --noconfirm base-devel bat binutils bottom colordiff curl duf dust eza fakeroot fastfetch fd gcc git httpie jq less make man-db neovim procs ripgrep sheldon starship strace traceroute unzip vim wget which whois wl-clipboard zip zellij zoxide zsh
 
     {{ else }}
         echo "Unsupported Linux distribution: {{- .chezmoi.osRelease.id -}}"

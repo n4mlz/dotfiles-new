@@ -35,6 +35,7 @@ This also provides a set of CLI tools, and can be deployed to SSH-accessible ser
 - [eza](https://github.com/eza-community/eza) _**(replacement for `ls`)**_
 - [zoxide](https://github.com/ajeetdsouza/zoxide) _**(replacement for `cd`)**_
 - [bottom](https://github.com/ClementTsang/bottom) _**(replacement for `bottom`)**_
+- [Zellij](https://zellij.dev/) _**(Terminal Multiplexer)**_
 
 ## ✅ Installation
 
