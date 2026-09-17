@@ -526,7 +526,7 @@ scroll_buffer_size 100000
 // - false
 // Default: false
 // 
-// web_server false
+web_server true
 // Whether to allow sessions started in the terminal to be shared through a local web server, assuming one is
 // running (see the `web_server` option for more details).
 // (Requires restart)
@@ -540,7 +540,7 @@ scroll_buffer_size 100000
 // - "disabled" (do not allow web sharing and do not permit sessions started in the terminal to opt-in to it)
 // Default: "off"
 // 
-// web_sharing "off"
+web_sharing "on"
 // A path to a certificate file to be used when setting up the web client to serve the
 // connection over HTTPs
 // 

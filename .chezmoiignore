@@ -2,3 +2,7 @@ README.md
 LICENSE
 assets
 install.sh
+
+{{- if not (lookPath "op") }}
+.ssh/id_ed25519
+{{- end }}
