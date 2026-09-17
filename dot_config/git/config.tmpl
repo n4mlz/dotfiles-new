@@ -3,10 +3,8 @@
   name = n4mlz
   signingkey = ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPZ5m8ZvMSzDJVe1xUVxqKKNHbbxQmyf5SXpjksxpsci
 
-{{- if or (lookPath "/opt/1Password/op-ssh-sign") (eq .chezmoi.hostname "mimosa") }}
 [gpg]
   format = ssh
-{{- end }}
 
 {{- if lookPath "/opt/1Password/op-ssh-sign" }}
 [gpg "ssh"]
@@ -16,10 +14,11 @@
   program = "/mnt/c/Users/aporo/AppData/Local/1Password/app/8/op-ssh-sign.exe"
 {{- end }}
 
-{{- if or (lookPath "/opt/1Password/op-ssh-sign") (eq .chezmoi.hostname "mimosa") }}
 [commit]
   gpgsign = true
-{{- end }}
+
+[tag]
+  gpgSign = true
 
 [color]
   ui = true
