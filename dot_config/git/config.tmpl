@@ -6,7 +6,10 @@
 [gpg]
   format = ssh
 
-{{- if lookPath "/opt/1Password/op-ssh-sign" }}
+{{- if and (eq .chezmoi.os "darwin") (lookPath "/Applications/1Password.app/Contents/MacOS/op-ssh-sign") }}
+[gpg "ssh"]
+  program = "/Applications/1Password.app/Contents/MacOS/op-ssh-sign"
+{{- else if lookPath "/opt/1Password/op-ssh-sign" }}
 [gpg "ssh"]
   program = "/opt/1Password/op-ssh-sign"
 {{- else if eq .chezmoi.hostname "mimosa" }}

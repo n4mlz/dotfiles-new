@@ -19,6 +19,12 @@ run_as_root() {
 
 install_packages() {
     packages="$*"
+    if command_exists brew; then
+        log "Installing ${packages} via Homebrew..."
+        brew install $packages
+        return
+    fi
+
     if command_exists apt-get; then
         log "Installing ${packages} via apt..."
         run_as_root apt-get update -y
@@ -37,10 +43,33 @@ install_packages() {
     exit 1
 }
 
+install_homebrew() {
+    if command_exists brew; then
+        return
+    fi
+
+    if [ "$(uname -s)" != "Darwin" ]; then
+        return
+    fi
+
+    if [ -x /opt/homebrew/bin/brew ]; then
+        eval "$(/opt/homebrew/bin/brew shellenv)"
+        return
+    fi
+
+    log "Installing Homebrew..."
+    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+    if [ -x /opt/homebrew/bin/brew ]; then
+        eval "$(/opt/homebrew/bin/brew shellenv)"
+    fi
+}
+
 choose_bindir() {
     if printf '%s' "$PATH" | tr ':' '\n' | grep -qx "$HOME/.local/bin" && [ -d "$HOME/.local/bin" ]; then
         printf '%s' "$HOME/.local/bin"
     elif [ -d "$HOME/.local/bin" ] && [ -w "$HOME/.local/bin" ]; then
+        printf '%s' "$HOME/.local/bin"
+    elif [ "$(uname -s)" = "Darwin" ]; then
         printf '%s' "$HOME/.local/bin"
     else
         printf '%s' "/usr/local/bin"
@@ -57,6 +86,8 @@ ensure_command() {
 
 # ---- main ----
 
+install_homebrew
+
 log "Checking for curl and git..."
 ensure_command curl curl git
 ensure_command git curl git
@@ -64,7 +95,10 @@ log "done"
 
 log "Checking for chezmoi installation..."
 if ! command_exists chezmoi; then
-    if command_exists pacman; then
+    if command_exists brew; then
+        log "Installing chezmoi via Homebrew..."
+        brew install chezmoi
+    elif command_exists pacman; then
         log "Installing chezmoi via pacman..."
         run_as_root pacman -S --needed --noconfirm chezmoi
     else

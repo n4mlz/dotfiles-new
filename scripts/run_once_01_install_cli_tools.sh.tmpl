@@ -46,4 +46,14 @@ echo "Checking for CLI tools installation..."
 
     echo "CLI tools installation completed."
 
+{{ else if eq .chezmoi.os "darwin" }}
+    echo "Installing CLI tools for macOS via Homebrew..."
+    if ! command -v brew >/dev/null 2>&1; then
+        echo "Homebrew is required. Install it first, then run chezmoi apply again." >&2
+        exit 1
+    fi
+
+    brew install bat binutils bottom colordiff curl duf dust eza fastfetch fd gcc gh ghq git httpie jq less make neovim procs ripgrep sheldon starship traceroute unzip vim wget whois zellij zoxide zsh
+    echo "CLI tools installation completed."
+
 {{ end }}
