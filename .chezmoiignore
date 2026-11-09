@@ -2,6 +2,14 @@ README.md
 LICENSE
 assets
 install.sh
+Dockerfile
+
+{{- if ne .chezmoi.os "linux" }}
+.config/hypr
+.config/waybar
+.config/wofi
+.config/mako
+{{- end }}
 
 {{- if not (lookPath "op") }}
 .ssh/id_ed25519
