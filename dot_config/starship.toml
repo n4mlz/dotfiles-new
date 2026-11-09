@@ -3,6 +3,9 @@
 continuation_prompt = '▶▶ '
 
 format = """
+[\u256d\u2500](fg:#e0f8ff)\
+[\ue0b6](fg:#fa55e7)\
+$os\
 $hostname\
 $directory\
 ($git_branch$git_status[\ue0b0](fg:#55d2fa))\
@@ -14,11 +17,66 @@ $character\
 [hostname]
 ssh_only = false
 format = """
-[\u256d\u2500](fg:#e0f8ff)\
-[\ue0b6](fg:#fa55e7)\
-[ $hostname ](fg:#ffffff bg:#fa55e7)\
+[ $ssh_symbol$hostname ](fg:#ffffff bg:#fa55e7)\
 [\ue0b0](fg:#fa55e7 bg:#555555)\
 """
+
+[os]
+disabled = false
+format = "[ $symbol](fg:#ffffff bg:#fa55e7)"
+
+[os.symbols]
+AIX = "➿ "
+Alpaquita = "🔔 "
+AlmaLinux = " "        # nf-linux-almalinux
+Alpine = " "           # nf-linux-alpine
+Amazon = "🙂 "
+Android = " "          # nf-fa-android
+Arch = " "             # nf-linux-archlinux
+Artix = " "            # nf-linux-artix
+Bluefin = "🐟 "
+CachyOS = "🎗️ "
+CentOS = " "           # nf-linux-centos
+Debian = " "           # nf-linux-debian
+DragonFly = "🐉 "
+Emscripten = "🔗 "
+EndeavourOS = " "      # nf-linux-endeavour
+Fedora = " "           # nf-linux-fedora
+FreeBSD = " "          # nf-linux-freebsd
+Garuda = " "           # nf-linux-garuda
+Gentoo = " "           # nf-linux-gentoo
+HardenedBSD = "🛡️ "
+Illumos = " "          # nf-linux-illumos
+Kali = " "             # nf-linux-kali_linux
+Linux = " "            # nf-linux-tux
+Mabox = "📦 "
+Macos = " "            # nf-linux-apple
+Manjaro = " "          # nf-linux-manjaro
+Mariner = "🌊 "
+MidnightBSD = "🌘 "
+Mint = " "             # nf-linux-linuxmint
+NetBSD = "🚩 "
+NixOS = " "            # nf-linux-nixos
+Nobara = " "           # nf-linux-nobara
+OpenBSD = " "          # nf-linux-openbsd
+OpenCloudOS = "☁️ "
+openEuler = "🦉 "
+openSUSE = " "         # nf-linux-opensuse
+OracleLinux = " "      # nf-dev-oracle
+Pop = " "              # nf-linux-pop_os
+Raspbian = " "         # nf-linux-raspberry_pi
+Redhat = " "           # nf-linux-redhat
+RedHatEnterprise = " " # nf-linux-redhat
+RockyLinux = " "       # nf-linux-rocky_linux
+Redox = "🧪 "
+Solus = " "            # nf-linux-solus
+SUSE = " "             # nf-fa-suse
+Ubuntu = " "           # nf-linux-ubuntu
+Ultramarine = "🔷 "
+Unknown = "❓ "
+Uos = "🐲 "
+Void = " "             # nf-linux-void
+Windows = " "          # nf-custom-windows
 
 [directory]
 format = "[ $path ](fg:#e4e4e4 bg:#555555)[\ue0b0](fg:#555555)"
@@ -27,6 +85,20 @@ truncate_to_repo = false
 truncation_symbol = "…/"
 home_symbol = "~"
 use_os_path_sep = false
+
+[directory.substitutions]
+"~/ghq/github.com" = " "
+"~/workspace/repos/github.com" = " " # nf-fa-github
+"~/workspace/repos/gitlab.com" = " " # nf-fa-gitlab
+"~/workspace/cp" = " "               # nf-fa-trophy
+"~/workspace/ctf" = "󰉀"               # nf-md-flag_variant
+"~/Desktop" = " "                    # nf-fa-desktop
+"~/Documents" = "󱧶 "                  # nf-md-folder_file
+"~/Downloads" = "󰉍 "                  # nf-md-folder_download
+"~/Pictures" = "󰉏 "                   # nf-md-folder_image
+"~/Music" = "󱍙 "                      # nf-md-folder_music
+"~/Public" = "󱧰 "                     # nf-md-folder_arrow_up
+"~/Videos" = "󱧺 "                     # nf-md-folder_play
 
 [git_branch]
 format = """
@@ -46,8 +118,8 @@ untracked = "?$count"
 stashed = "$"
 modified = "!$count"
 staged = "+$count"
-renamed = "»"
-deleted = "✘"
+renamed = "»$count"
+deleted = "✘$count"
 ignore_submodules = false
 format = "([$all_status$ahead_behind$count ](bg:#55d2fa fg:#353535))"
 
